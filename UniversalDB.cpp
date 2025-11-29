@@ -3,9 +3,7 @@
 #include <iomanip>
 #include <limits>
 
-using namespace std;
-
-int UniversalDB::findRowIndexById(const string& id) {
+int UniversalDB::findRowIndexById(const std::string& id) {
     for (size_t i = 0; i < tableData.size(); ++i) {
         if (tableData[i][0] == id) return i;
     }
@@ -24,41 +22,41 @@ void UniversalDB::createTable() {
     tableData.clear();
 
     int colCount;
-    std::cout << "=== 创建新表 ===" << endl;
+    std::cout << "=== 创建新表 ===" << std::endl;
     std::cout << "请输入你要管理的字段数量 (例如 3): ";
-    while (!(cin >> colCount) || colCount < 1) {
+    while (!(std::cin >> colCount) || colCount < 1) {
         std::cout << "输入无效，至少需要 1 列。请重新输入: ";
         std::cin.clear();
         std::cin.ignore(10000, '\n');
     }
 
-    cout << "注意：系统默认 **第1个字段** 为唯一检索ID (主键)。" << endl;
+    std::cout << "注意：系统默认 **第1个字段** 为唯一检索ID (主键)。" << std::endl;
     for (int i = 0; i < colCount; ++i) {
         std::string colName;
         std::cout << "请输入第 " << (i + 1) << " 个字段的名称 (例如: 学号/名称/价格): ";
         std::cin >> colName;
         columnHeaders.push_back(colName);
     }
-    std::cout << ">> 表结构创建成功！" << endl;
-    std::cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    std::cout << ">> 表结构创建成功！" << std::endl;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
 void UniversalDB::insertRecord() {
     if (columnHeaders.empty()) {
-        std::cout << ">> 错误：表结构不存在，请先选择功能 '1' 创建表。" << endl;
+        std::cout << ">> 错误：表结构不存在，请先选择功能 '1' 创建表。" << std::endl;
         return;
     }
 
     std::vector<std::string> newRow;
     std::string inputVal;
 
-    std::cout << "=== 插入数据 ===" << endl;
+    std::cout << "=== 插入数据 ===" << std::endl;
 
     // 处理第一列 (主键 ID) 的查重
     std::cout << "请输入 " << columnHeaders[0] << " (主键/唯一): ";
     std::cin >> inputVal;
     if (findRowIndexById(inputVal) != -1) {
-        std::cout << ">> 错误：该 " << columnHeaders[0] << " (" << inputVal << ") 已存在！" << endl;
+        std::cout << ">> 错误：该 " << columnHeaders[0] << " (" << inputVal << ") 已存在！" << std::endl;
         return;
     }
     newRow.push_back(inputVal);
@@ -71,32 +69,32 @@ void UniversalDB::insertRecord() {
     }
 
     tableData.push_back(newRow);
-    std::cout << ">> 记录插入成功。" << endl;
+    std::cout << ">> 记录插入成功。" << std::endl;
 }
 
 void UniversalDB::displayAll() {
     if (columnHeaders.empty()) {
-        std::cout << ">> 表是空的。" << endl;
+        std::cout << ">> 表是空的。" << std::endl;
         return;
     }
 
-    std::cout << "\n------------------------------------------------------" << endl;
+    std::cout << "\n------------------------------------------------------" << std::endl;
     // 打印表头
     for (const auto& header : columnHeaders) {
-        std::cout << left << setw(15) << header;
+        std::cout << std::left << std::setw(15) << header;
     }
-    std::cout << endl;
-    std::cout << "------------------------------------------------------" << endl;
+    std::cout << std::endl;
+    std::cout << "------------------------------------------------------" << std::endl;
 
     // 打印数据
     for (const auto& row : tableData) {
         for (const auto& val : row) {
-            std::cout << left << setw(15) << val;
+            std::cout << std::left << std::setw(15) << val;
         }
-        std::cout << endl;
+        std::cout << std::endl;
     }
-    std::cout << "------------------------------------------------------" << endl;
-    std::cout << "总记录数: " << tableData.size() << endl;
+    std::cout << "------------------------------------------------------" << std::endl;
+    std::cout << "总记录数: " << tableData.size() << std::endl;
 }
 
 void UniversalDB::queryRecord() {
@@ -108,13 +106,13 @@ void UniversalDB::queryRecord() {
 
     int index = findRowIndexById(id);
     if (index != -1) {
-        std::cout << "\n>> 查询结果:" << endl;
+        std::cout << "\n>> 查询结果:" << std::endl;
         for (size_t i = 0; i < columnHeaders.size(); ++i) {
-            std::cout << columnHeaders[i] << ": " << tableData[index][i] << endl;
+            std::cout << columnHeaders[i] << ": " << tableData[index][i] << std::endl;
         }
     }
     else {
-        std::cout << ">> 未找到该记录。" << endl;
+        std::cout << ">> 未找到该记录。" << std::endl;
     }
 }
 
@@ -127,16 +125,16 @@ void UniversalDB::updateRecord() {
 
     int index = findRowIndexById(id);
     if (index != -1) {
-        std::cout << ">> 找到记录。请更新除主键外的信息 (主键无法修改):" << endl;
+        std::cout << ">> 找到记录。请更新除主键外的信息 (主键无法修改):" << std::endl;
         for (size_t i = 1; i < columnHeaders.size(); ++i) {
             std::string newVal;
             std::cout << "原 " << columnHeaders[i] << " (" << tableData[index][i] << ") -> 新值: ";
             std::cin >> newVal;
             tableData[index][i] = newVal;
         }
-        std::cout << ">> 修改成功。" << endl;
+        std::cout << ">> 修改成功。" << std::endl;
     }
     else {
-        std::cout << ">> 未找到该记录，无法修改。" << endl;
+        std::cout << ">> 未找到该记录，无法修改。" << std::endl;
     }
 }
