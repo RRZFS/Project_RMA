@@ -72,11 +72,11 @@ UniversalDB/
 ### 构建步骤：
 
 **Windows（使用Visual Studio）:**
-```powershell
-# 1. 生成构建系统
+```
 mkdir build
 cd build
 cmake
+```
 
 ### 使用示例：
 
