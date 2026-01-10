@@ -5,7 +5,8 @@ project(UniversalDBProject)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-add_executable(UniversalDB
+add_executable(
+    UniversalDB
     main.cpp
     UniversalDB.cpp
     UniversalDB.h
